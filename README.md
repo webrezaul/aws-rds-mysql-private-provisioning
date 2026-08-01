@@ -79,6 +79,16 @@ aws rds describe-db-instances \
     --output table
 ```
 
+> [!NOTE]
+> **Provisioning Duration & Process**:
+> Provisioning a new Amazon RDS MySQL instance (`db.t3.micro`) typically takes **4 to 8 minutes** (average **5–7 minutes**).
+> 
+> **What AWS does during `aws rds wait db-instance-available`**:
+> 1. **Infrastructure Allocation**: Provisioning compute (`db.t3.micro`) and allocating 20 GB `gp2` storage.
+> 2. **Database Initialization**: Installing MySQL 8.4 binaries and configuring default system tables.
+> 3. **Networking & Security**: Attaching private Elastic Network Interfaces (ENIs) within the VPC.
+> 4. **Health Check**: Polling instance state until `DBInstanceStatus` changes from `creating` ➔ `available`.
+
 ---
 
 ## 🔍 Verification
