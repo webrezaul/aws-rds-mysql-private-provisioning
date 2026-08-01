@@ -75,7 +75,7 @@ aws rds wait db-instance-available --db-instance-identifier devops-rds
 # Query status
 aws rds describe-db-instances \
     --db-instance-identifier devops-rds \
-    --query "DBInstances[0].[DBInstanceIdentifier, DBInstanceStatus, EngineVersion, PubliclyAccessible, MaxAllocatedStorage]" \
+    --query "DBInstances[0].{Identifier:DBInstanceIdentifier, Status:DBInstanceStatus, Engine:Engine, Version:EngineVersion, Class:DBInstanceClass, Public:PubliclyAccessible, Storage:AllocatedStorage, MaxStorage:MaxAllocatedStorage}" \
     --output table
 ```
 
@@ -93,10 +93,30 @@ aws rds describe-db-instances \
 
 ## 🔍 Verification
 
-Upon completion, `describe-db-instances` will confirm:
-- `DBInstanceStatus`: `available`
-- `PubliclyAccessible`: `False`
-- `MaxAllocatedStorage`: `50`
+Execute the following verification command to confirm all instance settings:
+
+```bash
+aws rds describe-db-instances \
+    --db-instance-identifier devops-rds \
+    --query "DBInstances[0].{Identifier:DBInstanceIdentifier, Status:DBInstanceStatus, Engine:Engine, Version:EngineVersion, Class:DBInstanceClass, Public:PubliclyAccessible, Storage:AllocatedStorage, MaxStorage:MaxAllocatedStorage}" \
+    --output table
+```
+
+### Verified Output Table
+```text
+--------------------------------
+|     DescribeDBInstances      |
++------------+-----------------+
+|  Class     | db.t3.micro     |
+|  Engine    | mysql           |
+|  Identifier| devops-rds      |
+|  MaxStorage| 50              |
+|  Public    | False           |
+|  Status    | available       |
+|  Storage   | 20              |
+|  Version   | 8.4.x           |
++------------+-----------------+
+```
 
 ---
 

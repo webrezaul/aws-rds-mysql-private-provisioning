@@ -44,5 +44,5 @@ echo " ✅ RDS Instance '$DB_IDENTIFIER' is AVAILABLE!"
 echo "=========================================="
 aws rds describe-db-instances \
     --db-instance-identifier "$DB_IDENTIFIER" \
-    --query "DBInstances[0].[DBInstanceIdentifier, DBInstanceStatus, EngineVersion, PubliclyAccessible, MaxAllocatedStorage]" \
+    --query "DBInstances[0].{Identifier:DBInstanceIdentifier, Status:DBInstanceStatus, Engine:Engine, Version:EngineVersion, Class:DBInstanceClass, Public:PubliclyAccessible, Storage:AllocatedStorage, MaxStorage:MaxAllocatedStorage}" \
     --output table
