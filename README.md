@@ -49,7 +49,7 @@ Create the `devops-rds` instance with private networking and storage autoscaling
 
 ```bash
 # Fetch available MySQL 8.4 version
-MYSQL_VER=$(aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[?starts_with(EngineVersion, '8.4')].EngineVersion" --output text | awk '{print $1}')
+MYSQL_VER=$(aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[?starts_with(EngineVersion, '8.4')].EngineVersion" --output text | sed 's/[[:space:]].*//')
 
 # Create DB instance
 aws rds create-db-instance \

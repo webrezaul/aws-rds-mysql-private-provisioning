@@ -14,7 +14,7 @@ echo " AWS RDS MySQL Private Provisioning Script"
 echo "=========================================="
 
 echo "[1/3] Detecting available MySQL 8.4.x engine version..."
-MYSQL_VER=$(aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[?starts_with(EngineVersion, '8.4')].EngineVersion" --output text | awk '{print $1}')
+MYSQL_VER=$(aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[?starts_with(EngineVersion, '8.4')].EngineVersion" --output text | sed 's/[[:space:]].*//')
 
 if [ -z "$MYSQL_VER" ]; then
     echo "Error: Could not find any supported MySQL 8.4.x version in this region."
